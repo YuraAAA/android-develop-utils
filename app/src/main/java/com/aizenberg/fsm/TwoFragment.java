@@ -1,4 +1,4 @@
-package com.aizenberg;
+package com.aizenberg.fsm;
 
 import android.app.Fragment;
 import android.graphics.Color;
@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.aizenberg.R;
 import com.aizenberg.support.fsm.Switcher;
 
 /**

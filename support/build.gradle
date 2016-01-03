@@ -1,9 +1,29 @@
 apply plugin: 'com.android.library'
 
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'support'
 
-version = "1.0.0"
+    publishedGroupId = 'com.aizenberg'
+    libraryName = 'support'
+    artifact = 'support'
+
+    libraryDescription = 'A support for easy develop'
+
+    siteUrl = 'https://github.com/YuraAAA/android-develop-utils'
+    gitUrl = 'https://github.com/YuraAAA/android-develop-utils.git'
+
+    libraryVersion = '0.1.2'
+
+    developerId = 'yuriy-aizenberg'
+    developerName = 'Yuriy Aizenberg'
+    developerEmail = 'yuriy.aizenberg@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+
+}
 
 android {
     compileSdkVersion 23
@@ -29,4 +49,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

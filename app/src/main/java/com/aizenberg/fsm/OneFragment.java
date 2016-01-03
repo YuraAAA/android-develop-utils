@@ -1,6 +1,8 @@
-package com.aizenberg;
+package com.aizenberg.fsm;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.aizenberg.R;
 import com.aizenberg.support.fsm.IFragmentBackPressListener;
 import com.aizenberg.support.fsm.Switcher;
 
@@ -24,7 +27,7 @@ public class OneFragment extends Fragment implements IFragmentBackPressListener 
         inflate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Switcher.obtainSwitcher(MainActivity.class).switchTo(Fragments.TWO);
+                Switcher.obtainSwitcher(MainActivity.class).switchTo("two");
             }
         });
         return inflate;
@@ -32,10 +35,25 @@ public class OneFragment extends Fragment implements IFragmentBackPressListener 
 
     @Override
     public boolean onBackPressed() {
-        if (true) {
-            Switcher.obtainSwitcher(getActivity()).getBack();
-        }
-        return false;
+        new AlertDialog.Builder(getActivity())
+
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Switcher.obtainSwitcher(MainActivity.class).getBack();
+                    }
+                })
+
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create().show();
+
+        return true;
 
     }
 }

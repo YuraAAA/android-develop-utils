@@ -1,4 +1,4 @@
-package com.aizenberg;
+package com.aizenberg.fsm;
 
 import android.app.Fragment;
 
@@ -10,8 +10,7 @@ import com.aizenberg.support.fsm.ISwitchable;
 public enum Fragments implements ISwitchable {
     ONE(OneFragment.class),
     TWO(TwoFragment.class),
-    THREE(ThreeFragment.class)
-    ;
+    THREE(ThreeFragment.class);
 
     private Class<? extends Fragment> clazz;
 

@@ -26,6 +26,47 @@ public class FileUtils {
         copyFileAsync(src, dest, copyConfig, true);
     }
 
+    public static boolean copyFileSyncQuitely(File src, File dest) {
+        try {
+            copyFileSyncInternal(src, dest, false);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public static void copyFileSync(File src, File dest) throws IOException {
+        copyFileSyncInternal(src, dest, false);
+    }
+
+    public static boolean moveFileSyncQuitely(File src, File dest) {
+        try {
+            copyFileSyncInternal(src, dest, true);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public static void moveFileSync(File src, File dest) throws IOException {
+        copyFileSyncInternal(src, dest, false);
+    }
+
+    private static void copyFileSyncInternal(File src, File dest, boolean delete) throws IOException {
+        FileChannel inputChannel = null;
+        FileChannel outputChannel = null;
+        try {
+            inputChannel = new FileInputStream(src).getChannel();
+            outputChannel = new FileOutputStream(dest).getChannel();
+            inputChannel.transferTo(0, inputChannel.size(), outputChannel);
+            if (delete) //noinspection ResultOfMethodCallIgnored
+                dest.delete();
+        } finally {
+            IOUtils.closeQuietly(inputChannel, outputChannel);
+        }
+
+    }
+
     private static void copyFileAsync(final File src, final File dest, final CopyConfig copyConfig, final boolean deleteAfterCopy) {
         new AsyncTask<Void, Void, Void>() {
 
@@ -33,18 +74,10 @@ public class FileUtils {
 
             @Override
             protected Void doInBackground(Void... params) {
-                FileChannel inputChannel = null;
-                FileChannel outputChannel = null;
                 try {
-                    inputChannel = new FileInputStream(src).getChannel();
-                    outputChannel = new FileOutputStream(dest).getChannel();
-                    inputChannel.transferTo(0, inputChannel.size(), outputChannel);
-                    if (deleteAfterCopy) //noinspection ResultOfMethodCallIgnored
-                        dest.delete();
+                    copyFileSyncInternal(src, dest, deleteAfterCopy);
                 } catch (IOException e) {
                     t = e;
-                } finally {
-                    IOUtils.closeQuietly(inputChannel, outputChannel);
                 }
 
                 return null;
