@@ -56,12 +56,16 @@ public class SynchronizedSafetyEventMultiMap<V extends IEventReceiver> {
     }
 
     public synchronized boolean notifyById(String key, Long id) {
+        return notifyById(key, id, new Object[0]);
+    }
+
+    public synchronized boolean notifyById(String key, Long id, Object... args) {
         boolean result = false;
         if (hasListenersByKey(key)) {
             for (V v : map.get(key)) {
                 if (v instanceof IEventIdentificationReceiver) {
                     if (IEventIdentificationReceiver.class.cast(v).getIdentifier().equals(id) || ((IEventIdentificationReceiver) v).getIdentifier() == IEventIdentificationReceiver.ANY) {
-                        v.onReceiveAction(key);
+                        v.onReceiveAction(key, args);
                         result = true;
                     }
                 }

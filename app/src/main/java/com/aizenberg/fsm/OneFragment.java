@@ -27,7 +27,8 @@ public class OneFragment extends Fragment implements IFragmentBackPressListener 
         inflate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Switcher.obtainSwitcher(MainActivity.class).switchTo("two");
+                Switcher.obtainSwitcher(MainActivity.class).switchTo(Fragments.TWO);
+                Switcher.obtainSwitcher(MainActivity.class).switchTo(TwoFragment.class);
             }
         });
         return inflate;

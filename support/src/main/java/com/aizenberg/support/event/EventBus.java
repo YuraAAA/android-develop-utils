@@ -92,6 +92,15 @@ public class EventBus {
         return MAP.notifyById(action, id);
     }
 
+    public boolean notifyById(IAction action, Long id, Object... args) {
+        return notifyById(action.getAction(), id, args);
+    }
+
+    public boolean notifyById(String action, Long id, Object... args) {
+        return MAP.notifyById(action, id, args);
+    }
+
+
 
     public boolean notifyAction(IAction action, Object... args) {
         return notifyAction(action.getAction(), args);
