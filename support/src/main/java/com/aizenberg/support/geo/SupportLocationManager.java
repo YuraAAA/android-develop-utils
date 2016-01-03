@@ -128,17 +128,18 @@ public class SupportLocationManager implements LifecycleHook {
 
     private void notificationLocationChanged() {
         if (lastKnownLocation != null) {
+            String provider = configuration.getLocationProviderType().getProvider();
             switch (configuration.getNotificationType()) {
                 case LISTENER:
                     for (IGeoListener listener : geoListeners) {
-                        listener.onLocationChanged(lastKnownLocation, configuration.getLocationProviderType().getProvider());
+                        listener.onLocationChanged(lastKnownLocation, provider);
                     }
                     break;
                 case EVENT:
                     if (configuration.getAction() != null) {
-                        EventBus.getBus().notifyAction(configuration.getAction(), lastKnownLocation);
+                        EventBus.getBus().notifyAction(configuration.getAction(), lastKnownLocation, provider);
                     } else {
-                        EventBus.getBus().notifyAction(configuration.getStringAction(), lastKnownLocation);
+                        EventBus.getBus().notifyAction(configuration.getStringAction(), lastKnownLocation, provider);
                     }
                     break;
             }

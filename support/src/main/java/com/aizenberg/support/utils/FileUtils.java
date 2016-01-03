@@ -26,7 +26,7 @@ public class FileUtils {
         copyFileAsync(src, dest, copyConfig, true);
     }
 
-    public static boolean copyFileSyncQuitely(File src, File dest) {
+    public static boolean copyFileSyncQuietly(File src, File dest) {
         try {
             copyFileSyncInternal(src, dest, false);
             return true;
@@ -39,7 +39,7 @@ public class FileUtils {
         copyFileSyncInternal(src, dest, false);
     }
 
-    public static boolean moveFileSyncQuitely(File src, File dest) {
+    public static boolean moveFileSyncQuietly(File src, File dest) {
         try {
             copyFileSyncInternal(src, dest, true);
             return true;
@@ -49,7 +49,7 @@ public class FileUtils {
     }
 
     public static void moveFileSync(File src, File dest) throws IOException {
-        copyFileSyncInternal(src, dest, false);
+        copyFileSyncInternal(src, dest, true);
     }
 
     private static void copyFileSyncInternal(File src, File dest, boolean delete) throws IOException {
@@ -60,7 +60,7 @@ public class FileUtils {
             outputChannel = new FileOutputStream(dest).getChannel();
             inputChannel.transferTo(0, inputChannel.size(), outputChannel);
             if (delete) //noinspection ResultOfMethodCallIgnored
-                dest.delete();
+                src.delete();
         } finally {
             IOUtils.closeQuietly(inputChannel, outputChannel);
         }

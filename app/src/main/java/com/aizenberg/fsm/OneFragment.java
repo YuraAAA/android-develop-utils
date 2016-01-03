@@ -4,20 +4,49 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.aizenberg.R;
 import com.aizenberg.support.fsm.IFragmentBackPressListener;
 import com.aizenberg.support.fsm.Switcher;
+import com.aizenberg.support.geo.LifecycleHook;
+import com.aizenberg.support.geo.SupportLocationManager;
+import com.aizenberg.support.utils.FileUtils;
+import com.aizenberg.support.utils.IOUtils;
+import com.aizenberg.support.utils.StringUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by Yuriy Aizenberg
  */
 public class OneFragment extends Fragment implements IFragmentBackPressListener {
+
+    private LifecycleHook locationManager = SupportLocationManager.getInstance();
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Location location = SupportLocationManager.getInstance().getLastKnownLocation();
+        locationManager.onStart();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        locationManager.onStop();
+    }
 
     @Nullable
     @Override
@@ -57,4 +86,10 @@ public class OneFragment extends Fragment implements IFragmentBackPressListener 
         return true;
 
     }
+
+    private void IOUtilsC () throws IOException {
+
+
+    }
+
 }

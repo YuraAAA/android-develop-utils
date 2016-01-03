@@ -1,5 +1,7 @@
 package com.aizenberg.support.common.adapter;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.widget.BaseAdapter;
 
 import com.aizenberg.support.common.collection.NullExcludeSafetyList;
@@ -13,6 +15,11 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 
     private List<T> data = new NullExcludeSafetyList<>();
     private IEmptyAdapterListener emptyAdapterListener;
+    protected LayoutInflater inflater;
+
+    public CommonAdapter(Context context) {
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
 
     public void setEmptyAdapterListener(IEmptyAdapterListener emptyAdapterListener) {
         this.emptyAdapterListener = emptyAdapterListener;
