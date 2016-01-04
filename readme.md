@@ -1,6 +1,67 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Android development utils](#android-development-utils)
+  - [Install library](#install-library)
+    - [Gradle](#gradle)
+  - [Fragment management (Switcher)](#fragment-management-switcher)
+    - [Create switcher](#create-switcher)
+    - [Use fragment](#use-fragment)
+  - [Event Bus](#event-bus)
+    - [Send/receive actions by id](#sendreceive-actions-by-id)
+    - [Multiaction](#multiaction)
+  - [Cache](#cache)
+    - [Simple cache](#simple-cache)
+    - [Typed cache](#typed-cache)
+    - [Expire data in cache](#expire-data-in-cache)
+    - [Notification cache](#notification-cache)
+    - [Configure global](#configure-global)
+    - [Clear cache](#clear-cache)
+    - [Change expire](#change-expire)
+  - [Logging](#logging)
+    - [Configure log level](#configure-log-level)
+    - [Obtain logger](#obtain-logger)
+    - [Usage](#usage)
+  - [Map iteration](#map-iteration)
+    - [Map filtering](#map-filtering)
+    - [Simple KeyValue filter](#simple-keyvalue-filter)
+    - [Other filters implementation](#other-filters-implementation)
+  - [Geolocation support](#geolocation-support)
+    - [Configure geolocation service](#configure-geolocation-service)
+    - [Handle location changes](#handle-location-changes)
+    - [Start/stop location retrieving](#startstop-location-retrieving)
+    - [Obtain last location directly](#obtain-last-location-directly)
+  - [Utils](#utils)
+    - [Generic utils](#generic-utils)
+      - [<T> orElse(T data, T default)](#t-orelset-data-t-default)
+    - [String utils](#string-utils)
+    - [I/O Utils](#io-utils)
+    - [File utils](#file-utils)
+      - [Work with file async](#work-with-file-async)
+      - [Work sync](#work-sync)
+    - [Validation](#validation)
+      - [Cache your custom validator](#cache-your-custom-validator)
+    - [Commons](#commons)
+      - [Typed adapter for lists](#typed-adapter-for-lists)
+      - [Common async task](#common-async-task)
+    - [Network connection aware](#network-connection-aware)
+      - [Use listeners](#use-listeners)
+      - [Use events](#use-events)
+      - [Get network state directly](#get-network-state-directly)
+      - [Direct sync request (PING)](#direct-sync-request-ping)
+      - [Async request (PING) with listener](#async-request-ping-with-listener)
+      - [Async request (PING) with events](#async-request-ping-with-events)
+      - [Sync request to the server](#sync-request-to-the-server)
+      - [Async request (listener)](#async-request-listener)
+      - [Async request (event)](#async-request-event)
+      - [Request config](#request-config)
+    - [Global async configuration](#global-async-configuration)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Android development utils
 
-{"headers":[{"rank":"1","link":"#","name":"Android development utils"},{"rank":"2","link":"#","name":"Install library"},{"rank":"3","link":"#","name":"Gradle"},{"rank":"2","link":"#","name":"Fragment management (Switcher)"},{"rank":"3","link":"#","name":"Create switcher"},{"rank":"3","link":"#","name":"Use fragment"},{"rank":"2","link":"#","name":"Event Bus"},{"rank":"3","link":"#","name":"Send/receive actions by id"},{"rank":"3","link":"#","name":"Multiaction"},{"rank":"2","link":"#","name":"Cache"},{"rank":"3","link":"#","name":"Simple cache"},{"rank":"3","link":"#","name":"Typed cache"},{"rank":"3","link":"#","name":"Expire data in cache"},{"rank":"3","link":"#","name":"Notification cache"},{"rank":"3","link":"#","name":"Configure global"},{"rank":"3","link":"#","name":"Clear cache"},{"rank":"3","link":"#","name":"Change expire"},{"rank":"2","link":"#","name":"Logging"},{"rank":"3","link":"#","name":"Configure log level"},{"rank":"3","link":"#","name":"Obtain logger"},{"rank":"3","link":"#","name":"Usage"},{"rank":"2","link":"#","name":"Map iteration"},{"rank":"3","link":"#","name":"Map filtering"},{"rank":"3","link":"#","name":"Simple KeyValue filter"},{"rank":"3","link":"#","name":"Other filters implementation"},{"rank":"2","link":"#","name":"Geolocation support"},{"rank":"3","link":"#","name":"Configure geolocation service"},{"rank":"3","link":"#","name":"Handle location changes"},{"rank":"3","link":"#","name":"Start/stop location retrieving"},{"rank":"3","link":"#","name":"Obtain last location directly"},{"rank":"2","link":"#","name":"Utils"},{"rank":"3","link":"#","name":"Generic utils"},{"rank":"4","link":"#","name":" orElse(T data, T default)"},{"rank":"3","link":"#","name":"String utils"},{"rank":"3","link":"#","name":"I/O Utils"},{"rank":"3","link":"#","name":"File utils"},{"rank":"4","link":"#","name":"Work with file async"},{"rank":"4","link":"#","name":"Work sync"},{"rank":"3","link":"#","name":"Validation"},{"rank":"4","link":"#","name":"Cache your custom validator"},{"rank":"3","link":"#","name":"Commons"},{"rank":"4","link":"#","name":"Typed adapter for lists"},{"rank":"4","link":"#","name":"Common async task"},{"rank":"3","link":"#","name":"Network connection aware"},{"rank":"4","link":"#","name":"Use listeners"},{"rank":"4","link":"#","name":"Use events"},{"rank":"4","link":"#","name":"Get network state directly"},{"rank":"4","link":"#","name":"Direct sync request (PING)"},{"rank":"4","link":"#","name":"Async request (PING) with listener"},{"rank":"4","link":"#","name":"Async request (PING) with events"},{"rank":"4","link":"#","name":"Sync request to the server"},{"rank":"4","link":"#","name":"Async request (listener)"},{"rank":"4","link":"#","name":"Async request (event)"},{"rank":"4","link":"#","name":"Request config"},{"rank":"3","link":"#","name":"Global async configuration"}]}
 
 ## Install library
 
