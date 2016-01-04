@@ -2,6 +2,9 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
+Temporary frozen. Wait for sync with jCentral
+
+
 - [Android development utils](#android-development-utils)
   - [Install library](#install-library)
     - [Gradle](#gradle)
