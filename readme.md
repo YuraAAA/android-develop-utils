@@ -11,7 +11,7 @@ Add dependency to your build.gradle file
 
 ## Fragment management (Switcher)
 
-### Simple fragment management in activity
+### Create switcher
 
 ```
 public class MainActivity extends Activity {
@@ -155,7 +155,7 @@ public class MainActivity extends Activity implements IActivityBackPressListener
 
 ## Event Bus
 
-### You can use event bus for send events.
+You can use event bus for send events.
 
 Register receiver:
 
@@ -335,7 +335,7 @@ value = MemCache
                 .get("myValue");
 ```
 
-### Notify about data changed in cache
+### Notification cache
 
 We have two ways about notifications cache changes:
 
@@ -753,7 +753,7 @@ We have two ways to work with async copy/move: listener or event.
 
 Copy file async with listener:
 ```
-FileUtils.moveFileAsync(sourceFile, targetFile, CopyConfig.createListenerConfig(new ICopyListener() {
+FileUtils.copyFileAsync(sourceFile, targetFile, CopyConfig.createListenerConfig(new ICopyListener() {
             @Override
             public void onCopyFinish() {
 
@@ -964,3 +964,191 @@ public class SaveUserInDBJob extends CommonAsyncTask<Void> {
 }
 ```
 
+### Network connection aware
+
+Library support runtime network changes notification.
+By default connection manager turned off. But you can turn on by single line code:
+```
+NetworkConnectionManager.getInstance().start();
+```
+
+
+
+#### Use listeners
+
+```
+ NetworkConnectionManager.getInstance().addListener(new NetworkConnectionAware() {
+    @Override
+    public void onNetworkStateChange(boolean connected, NetworkType networkType) {
+                
+    }
+});
+```
+
+#### Use events
+
+```
+NetworkConnectionManager.getInstance().setEventActionKey("network");
+        
+EventBus.getBus().addListener("network", new IEventReceiver() {
+    @Override
+    public void onReceiveAction(String action, Object... args) {
+        boolean networkEnabled = (boolean) args[0];
+        NetworkType networkType = (NetworkType) args[1];
+    }
+});
+```
+
+#### Get network state directly
+
+```
+NetworkState state = NetworkConnectionManager.getInstance().getCurrentNetworkState(context);
+```
+Library provide few method:
+
+#### Direct sync request (PING)
+
+```
+boolean success = NetworkConnectionManager.getInstance().ping("8.8.8.8");
+```
+
+#### Async request (PING) with listener
+```
+NetworkConnectionManager.getInstance().pingAsync("8.8.8.8", new NetworkConnectionAware() {
+    @Override
+    public void onNetworkStateChange(boolean connected, NetworkType networkType) {
+
+    }
+});
+```
+
+#### Async request (PING) with events
+
+Register your event listener wherever you want:
+```
+EventBus.getBus().addListener("ping_result", new IEventReceiver() {
+    @Override
+    public void onReceiveAction(String action, Object... args) {
+        boolean pingSuccess = (boolean) args[0];
+    }
+});
+```
+
+And run async ping task:
+```
+NetworkConnectionManager.getInstance().pingAsync("8.8.8.8", "ping_result");
+```
+
+#### Sync request to the server
+
+Also you can check network state using direct HTTP Get request. By default library use next parameters:
+```
+Server: http://www.google.com
+Method: GET
+Connection timeout: 1000ms
+Exptected response code: 200 OK
+```
+You can do request by single line:
+
+```
+boolean successRequest = NetworkConnectionManager.getInstance().doRequest();
+```
+
+But you can use custom parameters:
+```
+//Request to "example.com"
+boolean successRequest = NetworkConnectionManager.getInstance().doRequest("example.com");
+
+//Or request to example.com, expect status 403, timeout 2s
+boolean successRequest = NetworkConnectionManager.getInstance().doRequest("example.com", HttpURLConnection.HTTP_FORBIDDEN, 2000);
+
+//Or request to example.com, expect status 200, timeout 3s
+boolean successRequest = NetworkConnectionManager.getInstance().doRequest("example.com", 3000);
+```
+
+
+#### Async request (listener)
+
+```
+NetworkConnectionManager.getInstance().doRequestAsync(new NetworkConnectionAware() {
+    @Override
+    public void onNetworkStateChange(boolean connected, NetworkType networkType) {
+               
+           }
+       });
+```
+As well as sync request, library support customization request params:
+```
+NetworkConnectionManager.getInstance().doRequestAsync("http://www.google.com", new NetworkConnectionAware() {
+    @Override
+    public void onNetworkStateChange(boolean connected, NetworkType networkType) {
+        }
+});
+```
+
+#### Async request (event)
+
+```
+ EventBus.getBus().addListener("google_connection", new IEventReceiver() {
+    @Override
+    public void onReceiveAction(String action, Object... args) {
+        boolean requestSuccess = (boolean) args[0];
+    }
+});
+```
+
+```
+NetworkConnectionManager.getInstance().doRequestAsync("http://www.google.com", "google_connection");
+```
+
+#### Request config
+
+You can global configure default params for request at once. For this you must create INetworkRequestConfigurable instance:
+```
+public class RestServerConfiguration implements INetworkRequestConfigurable {
+    @Override
+    public int getResponseCode() {
+        return HttpURLConnection.HTTP_OK;
+    }
+
+    @Override
+    public int getRequestConnectionTimeOut() {
+        return 1000;
+    }
+
+    @Override
+    public String getServer() {
+        return "http://myserver.com/api/health";
+    }
+
+    @Override
+    public String getRequestMethod() {
+        return "GET";
+    }
+}
+```
+Now you can setup configuration.
+
+```
+NetworkConnectionManager.setConfiguration(new RestServerConfiguration());
+```
+
+### Global async configuration
+
+Async methods in this library:
+* FileUtils#copyFileAsync
+* FileUtils#moveFileAsync
+* NetworkConnectionManager#doRequestAsync
+* NetworkConnectionManager#pingAsync
+
+are executed in default executor. But this behaviour can be change:
+
+Use default executor:
+```
+SupportExecutor.setDefaultSingleThreadExecutor();
+```
+
+Use fixed thread pool with threads count 4.
+```
+SupportExecutor.setCustomThreadExecutor(Executors.newFixedThreadPool(4));
+```

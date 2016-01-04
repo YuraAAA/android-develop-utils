@@ -2,6 +2,8 @@ package com.aizenberg.support.utils;
 
 import android.os.AsyncTask;
 
+import com.aizenberg.support.common.SupportExecutor;
+import com.aizenberg.support.common.error.SupportException;
 import com.aizenberg.support.event.EventBus;
 import com.aizenberg.support.event.IAction;
 import com.aizenberg.support.utils.config.CopyConfig;
@@ -68,7 +70,7 @@ public class FileUtils {
     }
 
     private static void copyFileAsync(final File src, final File dest, final CopyConfig copyConfig, final boolean deleteAfterCopy) {
-        new AsyncTask<Void, Void, Void>() {
+        SupportExecutor.execute(new AsyncTask<Void, Void, Void>() {
 
             private Throwable t;
 
@@ -141,7 +143,7 @@ public class FileUtils {
             }
 
 
-        }.execute();
+        });
     }
 
 }

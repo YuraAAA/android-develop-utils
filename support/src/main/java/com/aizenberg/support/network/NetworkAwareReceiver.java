@@ -14,6 +14,7 @@ public class NetworkAwareReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         NetworkConnectionManager.getInstance().notifyConnectivityChange(getState(context));
+        onReceiveNetworkStateChange();
     }
 
     static NetworkConnectionManager.NetworkState getState(Context context) {
@@ -31,6 +32,10 @@ public class NetworkAwareReceiver extends BroadcastReceiver {
             }
         }
         return new NetworkConnectionManager.NetworkState(connecting, type);
+    }
+
+    protected void onReceiveNetworkStateChange() {
+
     }
 
 }
