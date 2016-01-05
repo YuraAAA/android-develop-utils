@@ -33,7 +33,7 @@ Temporary frozen, wait for sync with jcenter
     - [ Obtain last location directly](#obtain-last-location-directly)
   - [ Utils](#utils)
     - [ Generic utils](#generic-utils)
-      - [ <T> orElse(T data, T default)](#t-orelset-data-t-default)
+      - [<T> orElse(T data, T default)](#t-orelset-data-t-default)
     - [ String utils](#string-utils)
     - [ I/O Utils](#io-utils)
     - [ File utils](#file-utils)
