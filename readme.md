@@ -2,60 +2,60 @@ Temporary frozen, wait for sync with jcenter
 
 **Table of Contents**  *generated with [MarkdownTocGenerator](https://github.com/YuraAAA/)
 - [ Android development utils](#android-development-utils)
-  - [ Install library](#install-library)
-    - [ Gradle](#gradle)
-  - [ Fragment management (Switcher)](#fragment-management-switcher)
-    - [ Create switcher](#create-switcher)
-    - [ Use fragment](#use-fragment)
-  - [ Event Bus](#event-bus)
-    - [ Send/receive actions by id](#sendreceive-actions-by-id)
-    - [ Multiaction](#multiaction)
-  - [ Cache](#cache)
-    - [ Simple cache](#simple-cache)
-    - [ Typed cache](#typed-cache)
-    - [ Expire data in cache](#expire-data-in-cache)
-    - [ Notification cache](#notification-cache)
-    - [ Configure global ](#configure-global)
-    - [ Clear cache](#clear-cache)
-    - [ Change expire](#change-expire)
-  - [ Logging](#logging)
-    - [ Configure log level](#configure-log-level)
-    - [ Obtain logger](#obtain-logger)
-    - [ Usage](#usage)
-  - [ Map iteration](#map-iteration)
-    - [ Map filtering](#map-filtering)
-    - [ Simple KeyValue filter](#simple-keyvalue-filter)
-    - [ Other filters implementation](#other-filters-implementation)
-  - [ Geolocation support](#geolocation-support)
-    - [ Configure geolocation service](#configure-geolocation-service)
-    - [ Handle location changes](#handle-location-changes)
-    - [ Start/stop location retrieving](#startstop-location-retrieving)
-    - [ Obtain last location directly](#obtain-last-location-directly)
-  - [ Utils](#utils)
-    - [ Generic utils](#generic-utils)
-      - [<T> orElse(T data, T default)](#t-orelset-data-t-default)
-    - [ String utils](#string-utils)
-    - [ I/O Utils](#io-utils)
-    - [ File utils](#file-utils)
-      - [ Work with file async](#work-with-file-async)
-      - [ Work sync](#work-sync)
-    - [ Validation](#validation)
-      - [ Cache your custom validator](#cache-your-custom-validator)
-    - [ Commons](#commons)
-      - [ Typed adapter for lists](#typed-adapter-for-lists)
-      - [ Common async task](#common-async-task)
-    - [ Network connection aware](#network-connection-aware)
-      - [ Use listeners](#use-listeners)
-      - [ Use events](#use-events)
-      - [ Get network state directly](#get-network-state-directly)
-      - [ Direct sync request (PING)](#direct-sync-request-ping)
-      - [ Async request (PING) with listener](#async-request-ping-with-listener)
-      - [ Async request (PING) with events](#async-request-ping-with-events)
-      - [ Sync request to the server](#sync-request-to-the-server)
-      - [ Async request (listener)](#async-request-listener)
-      - [ Async request (event)](#async-request-event)
-      - [ Request config](#request-config)
-    - [ Global async configuration](#global-async-configuration)
+   - [ Install library](#install-library) 
+     - [ Gradle](#gradle) 
+   - [ Fragment management (Switcher)](#fragment-management-switcher) 
+     - [ Create switcher](#create-switcher) 
+     - [ Use fragment](#use-fragment) 
+   - [ Event Bus](#event-bus) 
+     - [ Send/receive actions by id](#sendreceive-actions-by-id) 
+     - [ Multiaction](#multiaction) 
+   - [ Cache](#cache) 
+     - [ Simple cache](#simple-cache) 
+     - [ Typed cache](#typed-cache) 
+     - [ Expire data in cache](#expire-data-in-cache) 
+     - [ Notification cache](#notification-cache) 
+     - [ Configure global ](#configure-global) 
+     - [ Clear cache](#clear-cache) 
+     - [ Change expire](#change-expire) 
+   - [ Logging](#logging) 
+     - [ Configure log level](#configure-log-level) 
+     - [ Obtain logger](#obtain-logger) 
+     - [ Usage](#usage) 
+   - [ Map iteration](#map-iteration) 
+     - [ Map filtering](#map-filtering) 
+     - [ Simple KeyValue filter](#simple-keyvalue-filter) 
+     - [ Other filters implementation](#other-filters-implementation) 
+   - [ Geolocation support](#geolocation-support) 
+     - [ Configure geolocation service](#configure-geolocation-service) 
+     - [ Handle location changes](#handle-location-changes) 
+     - [ Start/stop location retrieving](#startstop-location-retrieving) 
+     - [ Obtain last location directly](#obtain-last-location-directly) 
+   - [ Utils](#utils) 
+     - [ Generic utils](#generic-utils) 
+       - [  orElse(T data, T default)](#t-orelset-data-t-default) 
+     - [ String utils](#string-utils) 
+     - [ I/O Utils](#io-utils) 
+     - [ File utils](#file-utils) 
+       - [ Work with file async](#work-with-file-async) 
+       - [ Work sync](#work-sync) 
+     - [ Validation](#validation) 
+       - [ Caching your custom validator](#caching-your-custom-validator) 
+     - [ Commons](#commons) 
+       - [ Typed adapter for lists](#typed-adapter-for-lists) 
+       - [ Common async task](#common-async-task) 
+     - [ Network connection aware](#network-connection-aware) 
+       - [ Use listeners](#use-listeners) 
+       - [ Use events](#use-events) 
+       - [ Get network state directly](#get-network-state-directly) 
+       - [ Direct sync request (PING)](#direct-sync-request-ping) 
+       - [ Async request (PING) with listener](#async-request-ping-with-listener) 
+       - [ Async request (PING) with events](#async-request-ping-with-events) 
+       - [ Sync request to the server](#sync-request-to-the-server) 
+       - [ Async request (listener)](#async-request-listener) 
+       - [ Async request (event)](#async-request-event) 
+       - [ Request config](#request-config) 
+     - [ Global async configuration](#global-async-configuration)
 
 # Android development utils
 
@@ -165,7 +165,7 @@ Switcher.obtainSwitcher(MainActivity.class).switchTo(OneFragment.class, false);
 Switcher.obtainSwitcher(MainActivity.class).switchTo(OneFragment.class, args, false);
 ```
 
-Override back pressing in fragment (In this example we show back dialog in fragment):
+Override back pressing in fragment (In this example we show back-dialog in fragment):
  
 ```
 public class OneFragment extends Fragment implements IFragmentBackPressListener {
@@ -352,7 +352,7 @@ EventBus.getBus().addListeners(this, "computation", "camera_image", "file_copy")
 ## Cache
 
 ### Simple cache
-Library support mem cache with change listener integration:
+Library supports mem cache with change listener integration:
 
 Default cache is not typed:
 
@@ -397,7 +397,7 @@ value = MemCache
 
 ### Notification cache
 
-We have two ways about notifications cache changes:
+There are 2 ways about notifications cache changes:
 
 With listener:
 ```
@@ -478,7 +478,7 @@ LoggerEnvironment.setCustom(LogLevel.ALL);
 //Only debug and error log will be print
 LoggerEnvironment.setCustom(LogLevel.D, LogLevel.E);
 ```
-Available logs is:
+Available logs are:
 ```
 public enum LogLevel {
 
@@ -523,7 +523,7 @@ Logger logger = LoggerFactory.getLogger("MainActivity");
 
 ## Map iteration
 
-Library support map iteration and filtering feature.
+Library supports map iteration and filtering feature.
 In this example we use this map:
 ```
 Map<Long, String> map = new HashMap<>();
@@ -567,7 +567,7 @@ Output:
 
 ### Map filtering
 
-Get only elements where keys > 29
+ Get elements only with keys > 29
 ```
 ITraversable<Long, String> traversable = Traverser.of(map);
 
@@ -593,7 +593,7 @@ TraversPair{key=90, value=TestUser}
 TraversPair{key=30, value=Helena}
 ```
 
-Filter by key OR by value:
+Filtering with key OR by value:
 Get elements where key > 29 OR value contains "Vas":
 ```
 TraversFilter<Long, String> filter
@@ -619,7 +619,7 @@ TraversPair{key=90, value=TestUser}
 TraversPair{key=30, value=Helena}
 ```
 
-Use AND filter:
+Use "AND" filter:
 ```
 TraversFilter<Long, String> filter
                 = TraversFilter.<Long, String>newFilter()
@@ -659,7 +659,7 @@ See TraversOneOfKVFilter and implementations: TraversOneOfKVFilterImplOr and Tra
 
 ## Geolocation support
 
-In this library geolocation provided via SupportLocationManager class.
+In this library geolocation is provided via SupportLocationManager class.
 
 
 ### Configure geolocation service
@@ -709,7 +709,7 @@ SupportLocationManager.getInstance().addListener(new IGeoListener() {
 ### Start/stop location retrieving
 
 For battery saving you can start/stop from any application point.
-Also you can bind to activity/fragment lifecycle
+Also you can bind lifecycle to activity/fragment
 ```
 private LifecycleHook locationManager = SupportLocationManager.getInstance();
 
@@ -734,43 +734,42 @@ Location location = SupportLocationManager.getInstance().getLastKnownLocation();
 
 ## Utils
 
-Library provide few utils for easy development.
+Library provides few utils for easier development.
 
 ### Generic utils
 
 
 #### <T> orElse(T data, T default)
 
-Return data if data not null, default otherwise
+Returns data if data not null, default otherwise
 ```
 User currentUser = GenericUtils.orElse(user, defaultUser);
 ```
 
 ### String utils
 
-Check string is empty:
+Checking that string is empty:
 ```
 if (StringUtils.isEmpty(password)) {
     Toast.makeText(this, "Password can't be empty", Toast.LENGTH_SHORT).show();
 }
 ```
 
-Return empty string if arg is null.
+Returns empty string if arg is null.
 Method like this:
 ```
 private String checkString(String str) {
     return str != null ? str : "";
 }
 ```
-can simplify to:
+can be simplify to:
 ```
 return StringUtils.orEmpty(str);
 ```
 
 ### I/O Utils
 
-Library provide helper method for close any streams very simple.
-Early:
+Library provides helper method for very simple closing any streams. Earlier:
 ```
 InputStream is = null;
 OutputStream os = null;
@@ -811,7 +810,7 @@ try {
 
 We have two ways to work with async copy/move: listener or event.
 
-Copy file async with listener:
+Copying async file with listener:
 ```
 FileUtils.copyFileAsync(sourceFile, targetFile, CopyConfig.createListenerConfig(new ICopyListener() {
             @Override
@@ -827,7 +826,7 @@ FileUtils.copyFileAsync(sourceFile, targetFile, CopyConfig.createListenerConfig(
 
 ```
 
-Copy file async with events:
+Copying async file with events:
 ```
 EventBus.getBus().addListeners(new IEventReceiver() {
             @Override
@@ -844,7 +843,7 @@ FileUtils.copyFileAsync(
 
 #### Work sync
 
-Library can copy file sync by two methods: with exception throwing and without.
+Library provides 2 ways of copying sync files: with exception throwing and withou
 
 With exception:
 ```
@@ -864,8 +863,8 @@ boolean success = FileUtils.copyFileSyncQuietly(sourceFile, targetFile);
 
 ### Validation
 
-Library support custom validation rules.
-For example, ready to use email validation.
+Library supports custom validation rules. 
+For example, prepared validator, to use email validation
 ```
 public class EmailValidator extends PatternValidator {
     @Override
@@ -879,7 +878,7 @@ That's all. Now you can use this validator only by class:
 boolean failedValidation = Validator.isValidCustomPattern(EmailValidator.class, "not_email");
 ```
 
-Fully custom validations for any classes:
+Completely custom validations for any classes:
 
 ```
 IValidatable<Long> customValidationRule = new IValidatable<Long>() {
@@ -892,7 +891,7 @@ IValidatable<Long> customValidationRule = new IValidatable<Long>() {
 boolean customValid = Validator.isCustomValid(customValidationRule, 1L);
 ```
 
-#### Cache your custom validator
+#### Caching your custom validator
 ```
  IValidatable<Long> customValidationRule = new IValidatable<Long>() {
     @Override
@@ -927,7 +926,7 @@ public class FriendsAdapter extends CommonAdapter<User> {
 }
 ```
 
-Use adapter:
+Using adapter:
 
 ```
 FriendsAdapter adapter = new FriendsAdapter(this);
@@ -935,9 +934,9 @@ listView.setAdapter(adapter);
 adapter.setData(users);
 ```
 
-No need call notify changes, just call setData.
+There is no need to call notification of changes, just call setData.
 
-Known when adapter is empty:
+Notification when adapter is empty:
 ```
 adapter.setEmptyAdapterListener(new IEmptyAdapterListener() {
     @Override
@@ -949,9 +948,9 @@ adapter.setEmptyAdapterListener(new IEmptyAdapterListener() {
 
 #### Common async task
 
-Library provide easy access to async operation with callback out of box.
+Library provides easy access to async operations with callback out of box.
 
-For use this functionality create your own class and extend CommonAsyncTask<ReturnType>.
+For using this functionality, create your own class and extend CommonAsyncTask<ReturnType>.
 
 ```
 public class AsyncUUIDGenerator extends CommonAsyncTask<UUID> {
@@ -1003,7 +1002,7 @@ new AsyncUUIDGenerator(new SimpleAsyncCallbackAdapter<UUID>() {
 }).execute();
 ```
 
-By default result analyzer not accept null as result. But this behavior can be changed:
+Result analyzer do not accept null as result by default. But this behavior can be changed:
 ```
 public class SaveUserInDBJob extends CommonAsyncTask<Void> {
 
@@ -1026,8 +1025,8 @@ public class SaveUserInDBJob extends CommonAsyncTask<Void> {
 
 ### Network connection aware
 
-Library support runtime network changes notification.
-By default connection manager turned off. But you can turn on by single line code:
+Library supports runtime network notification changes. 
+Connection manager turned off by default. But you can turn on by single line code:
 ```
 NetworkConnectionManager.getInstance().start();
 ```
@@ -1064,7 +1063,7 @@ EventBus.getBus().addListener("network", new IEventReceiver() {
 ```
 NetworkState state = NetworkConnectionManager.getInstance().getCurrentNetworkState(context);
 ```
-Library provide few method:
+Library provides few methods:
 
 #### Direct sync request (PING)
 
@@ -1101,7 +1100,7 @@ NetworkConnectionManager.getInstance().pingAsync("8.8.8.8", "ping_result");
 
 #### Sync request to the server
 
-Also you can check network state using direct HTTP Get request. By default library use next parameters:
+You can also check network state using direct HTTP Get request. Library use next parameters  by default:
 ```
 Server: http://www.google.com
 Method: GET
@@ -1114,7 +1113,7 @@ You can do request by single line:
 boolean successRequest = NetworkConnectionManager.getInstance().doRequest();
 ```
 
-But you can use custom parameters:
+But you can also use custom parameters:
 ```
 //Request to "example.com"
 boolean successRequest = NetworkConnectionManager.getInstance().doRequest("example.com");
@@ -1137,7 +1136,7 @@ NetworkConnectionManager.getInstance().doRequestAsync(new NetworkConnectionAware
            }
        });
 ```
-As well as sync request, library support customization request params:
+Library supports customization request params, as well as sync request:
 ```
 NetworkConnectionManager.getInstance().doRequestAsync("http://www.google.com", new NetworkConnectionAware() {
     @Override
@@ -1163,7 +1162,7 @@ NetworkConnectionManager.getInstance().doRequestAsync("http://www.google.com", "
 
 #### Request config
 
-You can global configure default params for request at once. For this you must create INetworkRequestConfigurable instance:
+You can configure default params for request only once. You must create INetworkRequestConfigurable instance to do this:
 ```
 public class RestServerConfiguration implements INetworkRequestConfigurable {
     @Override
@@ -1201,14 +1200,14 @@ Async methods in this library:
 * NetworkConnectionManager#doRequestAsync
 * NetworkConnectionManager#pingAsync
 
-are executed in default executor. But this behaviour can be change:
+are performed in default executor. But this behaviour can be changed
 
-Use default executor:
+Using default executor:
 ```
 SupportExecutor.setDefaultSingleThreadExecutor();
 ```
 
-Use fixed thread pool with threads count 4.
+Using fixed thread pool with threads count 4.
 ```
 SupportExecutor.setCustomThreadExecutor(Executors.newFixedThreadPool(4));
 ```
