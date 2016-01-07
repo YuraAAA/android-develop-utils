@@ -1,5 +1,3 @@
-Temporary frozen, wait for sync with jcenter
-
 **Table of Contents**  *generated with [MarkdownTocGenerator](https://github.com/YuraAAA/)
 - [ Android development utils](#android-development-utils)
   - [ Install library](#install-library) 
