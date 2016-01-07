@@ -66,7 +66,7 @@ Temporary frozen, wait for sync with jcenter
 Add dependency to your build.gradle file
 
 ```sh
- compile 'com.aizenberg:support:0.1.2'
+ compile 'com.aizenberg:support:0.1.3'
 ```
 
 ## Fragment management (Switcher)
