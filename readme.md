@@ -89,13 +89,13 @@ public class MainActivity extends Activity {
 
 With fragment classes:
 
-```
+```java
  switcher.switchTo(OneFragment.class);
 ```
 
 With enums:
 
-```
+```java
 public enum Fragments implements ISwitchable {
     ONE(OneFragment.class),
     TWO(TwoFragment.class),
@@ -119,7 +119,7 @@ switcher.switchTo(Fragments.ONE);
 ```
 
 With alias names:
-```
+```java
 switcher.addAliases(
                 new Alias(OneFragment.class, "one"),
                 new Alias(TwoFragment.class, "two"),
@@ -130,7 +130,7 @@ switcher.switchTo("one");
 ```
 You can obtain switcher from any fragment only by activity class:
 
-```
+```java
 //Switch by alias
 Switcher.obtainSwitcher(MainActivity.class).switchTo("two");
 //or by ISwitchable
@@ -141,7 +141,7 @@ Switcher.obtainSwitcher(MainActivity.class).switchTo(TwoFragment.class);
 
 Clear back stack
 
-```
+```java
  Switcher
      .obtainSwitcher(MainActivity.class)
      .clearBackStack()
@@ -150,14 +150,14 @@ Clear back stack
  
  
 Pass arguments:
-```
+```java
 Bundle args = new Bundle();
 args.putLong("id", 1);
 Switcher.obtainSwitcher(MainActivity.class).switchTo(OneFragment.class, args);
 ```
  
 Skip back stack:
-```
+```java
 //Without args
 Switcher.obtainSwitcher(MainActivity.class).switchTo(OneFragment.class, false);
 
@@ -167,7 +167,7 @@ Switcher.obtainSwitcher(MainActivity.class).switchTo(OneFragment.class, args, fa
 
 Override back pressing in fragment (In this example we show back-dialog in fragment):
  
-```
+```java
 public class OneFragment extends Fragment implements IFragmentBackPressListener {
 
      @Override
@@ -197,7 +197,7 @@ public class OneFragment extends Fragment implements IFragmentBackPressListener 
 
 In Activity:
 
-```
+```java
 public class MainActivity extends Activity implements IActivityBackPressListener {
 
      @Override
@@ -219,7 +219,7 @@ You can use event bus for send events.
 
 Register receiver:
 
-```
+```java
 public class ThreeFragment extends Fragment implements IEventReceiver {
 
     @Override
@@ -236,7 +236,7 @@ public class ThreeFragment extends Fragment implements IEventReceiver {
 ```
 
 Send event:
-```
+```java
 public class BackService extends Service {
 
     @Nullable
@@ -257,7 +257,7 @@ public class BackService extends Service {
 
 Use enums as action key:
 
-```
+```java
 public enum Events implements IAction {
 
     COMPUTATION("computation");
@@ -277,11 +277,11 @@ public enum Events implements IAction {
 ```
 Now you can use enum constants as action key:
 Register
-```
+```java
 EventBus.getBus().addListener(Events.COMPUTATION, this);
 ```
 Send:
-```
+```java
 EventBus.getBus().notifyAction(Events.COMPUTATION, uuid);
 ```
 
@@ -289,7 +289,7 @@ EventBus.getBus().notifyAction(Events.COMPUTATION, uuid);
 
 Use IEventIdentificationReceiver listener
 
-```
+```java
 EventBus.getBus()
  .addListener("computation", new IEventIdentificationReceiver() {
             @Override
@@ -306,7 +306,7 @@ EventBus.getBus()
 ```
 
 Send by id:
-```
+```java
 //Send result is true because we have listeners for this action/id pair
 boolean sendResult = EventBus.getBus().notifyById("computation", 1L, uuid);
 
@@ -316,7 +316,7 @@ boolean sendResult = EventBus.getBus().notifyById("computation", 2L, uuid);
 ```
 
 Accept any ids:
-```
+```java
 EventBus
         .getBus()
         .addListener("computation", new IEventIdentificationReceiver() {
@@ -334,7 +334,7 @@ EventBus
 
 Any ids will accept:
 
-```
+```java
 //true
 boolean sendResult1 = EventBus.getBus().notifyById("computation", 1L, uuid);
 //true
@@ -345,7 +345,7 @@ boolean sendResult2 = EventBus.getBus().notifyById("computation", 1L, uuid);
 
 You can register one listener for more than one action:
 
-```
+```java
 EventBus.getBus().addListeners(this, "computation", "camera_image", "file_copy");
 ```
 
@@ -356,7 +356,7 @@ Library supports mem cache with change listener integration:
 
 Default cache is not typed:
 
-```
+```java
 //Put
  MemCache.defaultCache().put("myUUID", UUID.randomUUID());
 
@@ -367,7 +367,7 @@ Default cache is not typed:
 ### Typed cache
 But you can create your own typed cache by single line :)
  
-```
+```java
 MemCache.cache(UUID.class).put("myUUID", UUID.randomUUID());
 
 UUID uuid = MemCache.cache(UUID.class).get("myUUID");
@@ -377,7 +377,7 @@ UUID uuid = MemCache.cache(UUID.class).get("myUUID");
 
 You can put data to cache with expire param:
 
-```
+```java
 //Put value 1L with key "myvalue" with expire after 10 seconds
 MemCache.cache(Long.class).put("myvalue", 1L, System.currentTimeMillis() + 10000);
 
@@ -400,7 +400,7 @@ value = MemCache
 There are 2 ways about notifications cache changes:
 
 With listener:
-```
+```java
 ChangeConfig<UUID> listenerConfig = ChangeConfig.createListenerConfig(new ICacheChangeListener<UUID>() {
             @Override
             public void onChange(UUID data) {
@@ -417,14 +417,14 @@ ChangeConfig<UUID> listenerConfig = ChangeConfig.createListenerConfig(new ICache
 
 or with event bus :
 
-```
+```java
 ChangeConfig<UUID> eventConfig = ChangeConfig.createEventConfig("change_object", "change_collection");
 
 MemCache.cache(UUID.class).setConfig(eventConfig);
 ```
 
 ### Configure global 
-```
+```java
  MemCache.addConfig(UUID.class, ChangeConfig.<UUID>createEventConfig("uuid_change", "uuid_list"));
  
         MemCache.addConfig(Long.class, ChangeConfig.createListenerConfig(new ICacheChangeListener<Long>() {
@@ -443,18 +443,18 @@ MemCache.cache(UUID.class).setConfig(eventConfig);
 ### Clear cache
 
 You can clear cache by key:
-```
+```java
 MemCache.cache(String.class).put("Key", "Value");
 
 MemCache.cache(String.class).evict("Key");
 ```
 Or clear all cache data:
-```
+```java
  MemCache.cache(String.class).evictAll();
 ```
  
 ### Change expire
-```
+```java
 MemCache.cache(UUID.class).put("uuid", UUID.randomUUID());
 //Change expire to 10 minutes 
 MemCache.cache(UUID.class).setExpire("uuid", System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(10));
@@ -465,7 +465,7 @@ MemCache.cache(UUID.class).setExpire("uuid", System.currentTimeMillis() + TimeUn
 ### Configure log level
 
 You can configure any log level from any application point:
-```
+```java
 //No logs will be print
 LoggerEnvironment.setProd();
 
@@ -479,7 +479,7 @@ LoggerEnvironment.setCustom(LogLevel.ALL);
 LoggerEnvironment.setCustom(LogLevel.D, LogLevel.E);
 ```
 Available logs are:
-```
+```java
 public enum LogLevel {
 
     ALL, //all
@@ -493,21 +493,21 @@ public enum LogLevel {
 ### Obtain logger
 
 By class:
-```
+```java
 Logger logger = LoggerFactory.getLogger(MainActivity.class);
 ```
 
 By string tag:
-```
+```java
 Logger logger = LoggerFactory.getLogger("MainActivity");
 ```
 
 ### Usage
-```
+```java
  Logger logger = LoggerFactory.getLogger(MainActivity.class);
 ```
 
-```
+```java
 //Print I/MainActivity: Hello
  logger.i("Hello")
  
@@ -525,7 +525,7 @@ Logger logger = LoggerFactory.getLogger("MainActivity");
 
 Library supports map iteration and filtering feature.
 In this example we use this map:
-```
+```java
 Map<Long, String> map = new HashMap<>();
 map.put(24L, "John");
 map.put(30L, "Helena");
@@ -533,7 +533,7 @@ map.put(1L, "Vas");
 map.put(90L, "TestUser");
 ```
 You can get traverser by calling Traverser#of static method:
-```
+```java
 ITraversable<Long, String> traversable = Traverser.of(map);
 while (traversable.hasNext()) {
     TraversPair<Long, String> current = traversable.next();
@@ -551,14 +551,14 @@ TraversPair{key=30, value=Helena}
 
 Get only keys:
 
-```
+```java
 while (traversable.hasNext()) {
     logger.i(String.valueOf(traversable.nextKey()));
 }
 ```
 
 Output:
-```
+```java
 1
 24
 90
@@ -568,7 +568,7 @@ Output:
 ### Map filtering
 
  Get elements only with keys > 29
-```
+```java
 ITraversable<Long, String> traversable = Traverser.of(map);
 
 TraversFilter<Long, String> filter = 
@@ -588,14 +588,14 @@ ITraversable<Long, String> filteredMapTraverser = Traverser.of(filteredMap);
     }
 ```
 
-```
+```java
 TraversPair{key=90, value=TestUser}
 TraversPair{key=30, value=Helena}
 ```
 
 Filtering with key OR by value:
 Get elements where key > 29 OR value contains "Vas":
-```
+```java
 TraversFilter<Long, String> filter
                 = TraversFilter.<Long, String>newFilter()
                 .key(new IValidatable<Long>() {
@@ -613,14 +613,14 @@ TraversFilter<Long, String> filter
                 });
 ```
 
-```
+```java
 TraversPair{key=1, value=Vas}
 TraversPair{key=90, value=TestUser}
 TraversPair{key=30, value=Helena}
 ```
 
 Use "AND" filter:
-```
+```java
 TraversFilter<Long, String> filter
                 = TraversFilter.<Long, String>newFilter()
                 .key(new IValidatable<Long>() {
@@ -638,12 +638,12 @@ TraversFilter<Long, String> filter
                 });
 ```
 
-```
+```java
 TraversPair{key=90, value=TestUser}
 ```
 
 ### Simple KeyValue filter
-```
+```java
 Map<Long, String> filteredMap = 
 traversable.filter(new TraversKVFilter<Long, String>() {
         @Override
@@ -664,7 +664,7 @@ In this library geolocation is provided via SupportLocationManager class.
 
 ### Configure geolocation service
 
-```
+```java
 LocationConfiguration.LocationConfigurationBuilder builder = new LocationConfiguration.LocationConfigurationBuilder();
         builder
                 //Auto start after #init method
@@ -684,7 +684,7 @@ LocationConfiguration.LocationConfigurationBuilder builder = new LocationConfigu
 ```
 
 ### Handle location changes
-```
+```java
 builder.setNotificationByEvent("location");
 //............
 EventBus.getBus().addListener("location", new IEventReceiver() {
@@ -697,7 +697,7 @@ EventBus.getBus().addListener("location", new IEventReceiver() {
 ```
 
 or handle in listener:
-```
+```java
 SupportLocationManager.getInstance().addListener(new IGeoListener() {
     @Override
     public void onLocationChanged(Location location, String provider) {
@@ -710,7 +710,7 @@ SupportLocationManager.getInstance().addListener(new IGeoListener() {
 
 For battery saving you can start/stop from any application point.
 Also you can bind lifecycle to activity/fragment
-```
+```java
 private LifecycleHook locationManager = SupportLocationManager.getInstance();
 
     @Override
@@ -728,7 +728,7 @@ private LifecycleHook locationManager = SupportLocationManager.getInstance();
 
 ### Obtain last location directly
 
-```
+```java
 Location location = SupportLocationManager.getInstance().getLastKnownLocation();
 ```
 
@@ -742,14 +742,14 @@ Library provides few utils for easier development.
 #### <T> orElse(T data, T default)
 
 Returns data if data not null, default otherwise
-```
+```java
 User currentUser = GenericUtils.orElse(user, defaultUser);
 ```
 
 ### String utils
 
 Checking that string is empty:
-```
+```java
 if (StringUtils.isEmpty(password)) {
     Toast.makeText(this, "Password can't be empty", Toast.LENGTH_SHORT).show();
 }
@@ -757,20 +757,20 @@ if (StringUtils.isEmpty(password)) {
 
 Returns empty string if arg is null.
 Method like this:
-```
+```java
 private String checkString(String str) {
     return str != null ? str : "";
 }
 ```
 can be simplify to:
-```
+```java
 return StringUtils.orEmpty(str);
 ```
 
 ### I/O Utils
 
 Library provides helper method for very simple closing any streams. Earlier:
-```
+```java
 InputStream is = null;
 OutputStream os = null;
 try {
@@ -792,7 +792,7 @@ try {
 }
 ```
 Now:
-```
+```java
 InputStream is = null;
 OutputStream os = null;
 try {
@@ -811,7 +811,7 @@ try {
 We have two ways to work with async copy/move: listener or event.
 
 Copying async file with listener:
-```
+```java
 FileUtils.copyFileAsync(sourceFile, targetFile, CopyConfig.createListenerConfig(new ICopyListener() {
             @Override
             public void onCopyFinish() {
@@ -827,7 +827,7 @@ FileUtils.copyFileAsync(sourceFile, targetFile, CopyConfig.createListenerConfig(
 ```
 
 Copying async file with events:
-```
+```java
 EventBus.getBus().addListeners(new IEventReceiver() {
             @Override
             public void onReceiveAction(String action, Object... args) {
@@ -846,7 +846,7 @@ FileUtils.copyFileAsync(
 Library provides 2 ways of copying sync files: with exception throwing and withou
 
 With exception:
-```
+```java
 try {
     FileUtils.copyFileSync(sourceFile, targetFile);
 } catch (IOException e) {
@@ -854,8 +854,8 @@ try {
 }
 ```
 
-Wihout exception:
-```
+Without exception:
+```java
 //Return true if file sopyied, false otherwise
 boolean success = FileUtils.copyFileSyncQuietly(sourceFile, targetFile);
 ```
@@ -865,7 +865,7 @@ boolean success = FileUtils.copyFileSyncQuietly(sourceFile, targetFile);
 
 Library supports custom validation rules. 
 For example, prepared validator, to use email validation
-```
+```java
 public class EmailValidator extends PatternValidator {
     @Override
     public String getPattern() {
@@ -874,13 +874,13 @@ public class EmailValidator extends PatternValidator {
 }
 ```
 That's all. Now you can use this validator only by class:
-```
+```java
 boolean failedValidation = Validator.isValidCustomPattern(EmailValidator.class, "not_email");
 ```
 
 Completely custom validations for any classes:
 
-```
+```java
 IValidatable<Long> customValidationRule = new IValidatable<Long>() {
     @Override
     public boolean isValid(Long candidate) {
@@ -892,7 +892,7 @@ boolean customValid = Validator.isCustomValid(customValidationRule, 1L);
 ```
 
 #### Caching your custom validator
-```
+```java
  IValidatable<Long> customValidationRule = new IValidatable<Long>() {
     @Override
     public boolean isValid(Long candidate) {
@@ -904,14 +904,14 @@ Validator.registerCustomValidator("long", customValidationRule);
 ```
 Now you can use validator by alias name:
 
-```
+```java
 boolean isValid = Validator.isCustomValid("long", 1L);
 ```
 
 ### Commons
 
 #### Typed adapter for lists
-```
+```java
 public class FriendsAdapter extends CommonAdapter<User> {
 
     public FriendsAdapter(Context context) {
@@ -928,7 +928,7 @@ public class FriendsAdapter extends CommonAdapter<User> {
 
 Using adapter:
 
-```
+```java
 FriendsAdapter adapter = new FriendsAdapter(this);
 listView.setAdapter(adapter);
 adapter.setData(users);
@@ -937,7 +937,7 @@ adapter.setData(users);
 There is no need to call notification of changes, just call setData.
 
 Notification when adapter is empty:
-```
+```java
 adapter.setEmptyAdapterListener(new IEmptyAdapterListener() {
     @Override
     public void onPipelineChange(boolean empty) {
@@ -952,7 +952,7 @@ Library provides easy access to async operations with callback out of box.
 
 For using this functionality, create your own class and extend CommonAsyncTask<ReturnType>.
 
-```
+```java
 public class AsyncUUIDGenerator extends CommonAsyncTask<UUID> {
 
     public AsyncUUIDGenerator(IAsyncCallback<UUID> callback) {
@@ -966,7 +966,7 @@ public class AsyncUUIDGenerator extends CommonAsyncTask<UUID> {
 }
 ```
 Usage:
-```
+```java
 new AsyncUUIDGenerator(new IAsyncCallback<UUID>() {
     @Override
     public void onBegin() {
@@ -991,7 +991,7 @@ new AsyncUUIDGenerator(new IAsyncCallback<UUID>() {
 ```
 
 You can override only necessary methods by using SimpleAsyncCallbackAdapter:
-```
+```java
 new AsyncUUIDGenerator(new SimpleAsyncCallbackAdapter<UUID>() {
 
     @Override
@@ -1003,7 +1003,7 @@ new AsyncUUIDGenerator(new SimpleAsyncCallbackAdapter<UUID>() {
 ```
 
 Result analyzer do not accept null as result by default. But this behavior can be changed:
-```
+```java
 public class SaveUserInDBJob extends CommonAsyncTask<Void> {
 
     public SaveUserInDBJob(IAsyncCallback<Void> callback) {
@@ -1027,7 +1027,7 @@ public class SaveUserInDBJob extends CommonAsyncTask<Void> {
 
 Library supports runtime network notification changes. 
 Connection manager turned off by default. But you can turn on by single line code:
-```
+```java
 NetworkConnectionManager.getInstance().start();
 ```
 
@@ -1035,7 +1035,7 @@ NetworkConnectionManager.getInstance().start();
 
 #### Use listeners
 
-```
+```java
  NetworkConnectionManager.getInstance().addListener(new NetworkConnectionAware() {
     @Override
     public void onNetworkStateChange(boolean connected, NetworkType networkType) {
@@ -1046,7 +1046,7 @@ NetworkConnectionManager.getInstance().start();
 
 #### Use events
 
-```
+```java
 NetworkConnectionManager.getInstance().setEventActionKey("network");
         
 EventBus.getBus().addListener("network", new IEventReceiver() {
@@ -1060,19 +1060,19 @@ EventBus.getBus().addListener("network", new IEventReceiver() {
 
 #### Get network state directly
 
-```
+```java
 NetworkState state = NetworkConnectionManager.getInstance().getCurrentNetworkState(context);
 ```
 Library provides few methods:
 
 #### Direct sync request (PING)
 
-```
+```java
 boolean success = NetworkConnectionManager.getInstance().ping("8.8.8.8");
 ```
 
 #### Async request (PING) with listener
-```
+```java
 NetworkConnectionManager.getInstance().pingAsync("8.8.8.8", new NetworkConnectionAware() {
     @Override
     public void onNetworkStateChange(boolean connected, NetworkType networkType) {
@@ -1084,7 +1084,7 @@ NetworkConnectionManager.getInstance().pingAsync("8.8.8.8", new NetworkConnectio
 #### Async request (PING) with events
 
 Register your event listener wherever you want:
-```
+```java
 EventBus.getBus().addListener("ping_result", new IEventReceiver() {
     @Override
     public void onReceiveAction(String action, Object... args) {
@@ -1094,7 +1094,7 @@ EventBus.getBus().addListener("ping_result", new IEventReceiver() {
 ```
 
 And run async ping task:
-```
+```java
 NetworkConnectionManager.getInstance().pingAsync("8.8.8.8", "ping_result");
 ```
 
@@ -1109,12 +1109,12 @@ Exptected response code: 200 OK
 ```
 You can do request by single line:
 
-```
+```java
 boolean successRequest = NetworkConnectionManager.getInstance().doRequest();
 ```
 
 But you can also use custom parameters:
-```
+```java
 //Request to "example.com"
 boolean successRequest = NetworkConnectionManager.getInstance().doRequest("example.com");
 
@@ -1128,7 +1128,7 @@ boolean successRequest = NetworkConnectionManager.getInstance().doRequest("examp
 
 #### Async request (listener)
 
-```
+```java
 NetworkConnectionManager.getInstance().doRequestAsync(new NetworkConnectionAware() {
     @Override
     public void onNetworkStateChange(boolean connected, NetworkType networkType) {
@@ -1137,7 +1137,7 @@ NetworkConnectionManager.getInstance().doRequestAsync(new NetworkConnectionAware
        });
 ```
 Library supports customization request params, as well as sync request:
-```
+```java
 NetworkConnectionManager.getInstance().doRequestAsync("http://www.google.com", new NetworkConnectionAware() {
     @Override
     public void onNetworkStateChange(boolean connected, NetworkType networkType) {
@@ -1147,7 +1147,7 @@ NetworkConnectionManager.getInstance().doRequestAsync("http://www.google.com", n
 
 #### Async request (event)
 
-```
+```java
  EventBus.getBus().addListener("google_connection", new IEventReceiver() {
     @Override
     public void onReceiveAction(String action, Object... args) {
@@ -1163,7 +1163,7 @@ NetworkConnectionManager.getInstance().doRequestAsync("http://www.google.com", "
 #### Request config
 
 You can configure default params for request only once. You must create INetworkRequestConfigurable instance to do this:
-```
+```java
 public class RestServerConfiguration implements INetworkRequestConfigurable {
     @Override
     public int getResponseCode() {
@@ -1188,7 +1188,7 @@ public class RestServerConfiguration implements INetworkRequestConfigurable {
 ```
 Now you can setup configuration.
 
-```
+```java
 NetworkConnectionManager.setConfiguration(new RestServerConfiguration());
 ```
 
@@ -1203,12 +1203,12 @@ Async methods in this library:
 are performed in default executor. But this behaviour can be changed
 
 Using default executor:
-```
+```java
 SupportExecutor.setDefaultSingleThreadExecutor();
 ```
 
 Using fixed thread pool with threads count 4.
-```
+```java
 SupportExecutor.setCustomThreadExecutor(Executors.newFixedThreadPool(4));
 ```
 
