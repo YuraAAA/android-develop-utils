@@ -73,7 +73,7 @@ Add dependency to your build.gradle file
 
 ### Create switcher
 
-```
+```java
 public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
