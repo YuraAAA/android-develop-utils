@@ -19,7 +19,9 @@ public class NetworkAwareReceiver extends BroadcastReceiver {
 
     static NetworkConnectionManager.NetworkState getState(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        boolean connecting = cm.getActiveNetworkInfo().isConnectedOrConnecting();
+        NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
+        if (activeNetworkInfo == null) return new NetworkConnectionManager.NetworkState(false, NetworkType.UNDEFINED);
+        boolean connecting = activeNetworkInfo.isConnectedOrConnecting();
         NetworkType type = null;
         if (connecting) {
             NetworkInfo info = cm.getActiveNetworkInfo();

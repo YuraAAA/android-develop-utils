@@ -311,6 +311,16 @@ public class NetworkConnectionManager {
             this.networkType = networkType;
         }
 
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+
+        public NetworkType getNetworkType() {
+            return networkType;
+        }
+
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
