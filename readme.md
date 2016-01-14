@@ -68,7 +68,7 @@
 Add dependency to your build.gradle file
 
 ```sh
- compile 'com.aizenberg:support:0.1.5'
+ compile 'com.aizenberg:support:0.1.6'
 ```
 
 ## Fragment management (Switcher)
