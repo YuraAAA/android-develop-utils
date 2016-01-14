@@ -243,7 +243,7 @@ public class DefaultSwitcher implements ISwitcher {
         int reverseCustomInAnimation = NO_ANIM;
         int reverseCustomOutAnimation = NO_ANIM;
 
-        State state;
+        State state = State.UNSET;
         State previousState;
 
         public boolean isDefaultAnimationSetup() {
