@@ -40,6 +40,18 @@ public interface ISwitcher {
 
     ISwitcher clearBackStack();
 
+    ISwitcher clearAnimation();
+
+    ISwitcher setAnimations(int inAnimResource, int outAnimResource);
+
+    ISwitcher setAnimations(int inAnimResource, int outAnimResource, int reverseInAnimResource, int reverseOutAnimResource);
+
+    ISwitcher withAnimations(int inAnimResource, int outAnimResource);
+
+    ISwitcher withAnimations(int inAnimResource, int outAnimResource, int reverseInAnimResource, int reverserOutAnimResource);
+
+    ISwitcher withoutAnimation();
+
     void addAlias(String key, Class<? extends Fragment> clazz);
 
     void addAlias(String key, ISwitchable switchable);

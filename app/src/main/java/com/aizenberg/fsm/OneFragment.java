@@ -33,21 +33,6 @@ import java.io.OutputStream;
  */
 public class OneFragment extends Fragment implements IFragmentBackPressListener {
 
-    private LifecycleHook locationManager = SupportLocationManager.getInstance();
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Location location = SupportLocationManager.getInstance().getLastKnownLocation();
-        locationManager.onStart();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        locationManager.onStop();
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,7 +42,6 @@ public class OneFragment extends Fragment implements IFragmentBackPressListener 
             @Override
             public void onClick(View v) {
                 Switcher.obtainSwitcher(MainActivity.class).switchTo(Fragments.TWO);
-                Switcher.obtainSwitcher(MainActivity.class).switchTo(TwoFragment.class);
             }
         });
         return inflate;
@@ -84,11 +68,6 @@ public class OneFragment extends Fragment implements IFragmentBackPressListener 
                 .create().show();
 
         return true;
-
-    }
-
-    private void IOUtilsC () throws IOException {
-
 
     }
 

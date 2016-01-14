@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/YuraAAA/android-develop-utils'
     gitUrl = 'https://github.com/YuraAAA/android-develop-utils.git'
 
-    libraryVersion = '0.1.5'
+    libraryVersion = '0.1.6'
 
     developerId = 'yuriy-aizenberg'
     developerName = 'Yuriy Aizenberg'

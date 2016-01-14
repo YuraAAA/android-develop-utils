@@ -4,7 +4,11 @@
     - [ Gradle](#gradle) 
   - [ Fragment management (Switcher)](#fragment-management-switcher) 
     - [ Create switcher](#create-switcher) 
-    - [ Use fragment](#use-fragment) 
+    - [ Use fragment](#use-fragment)
+    - [ Use animations](#use-animations)
+      - [ Setup animation global:](#setup-animation-global)
+      - [ Disable animation](#disable-animation)
+      - [ Custom animation](#custom-animation)
   - [ Event Bus](#event-bus) 
     - [ Send/receive actions by id](#sendreceive-actions-by-id) 
     - [ Multiaction](#multiaction) 
@@ -209,6 +213,55 @@ public class MainActivity extends Activity implements IActivityBackPressListener
         super.onBackPressed();
     }
 }
+```
+
+### Use animations
+
+Library provides few methods for animations:
+
+#### Setup animation global:
+
+With reverse animation
+```java
+ Switcher
+         .createSwitcher(this, R.id.container)
+         .setAnimations(
+                        R.anim.slide_in_left,
+                        R.anim.slide_out_left,
+                        R.anim.slide_out_right,
+                        R.anim.slide_in_right)
+         .switchTo(OneFragment.class);
+```
+Without reverse animation
+
+```java
+ Switcher
+         .createSwitcher(this, R.id.container)
+         .setAnimations(
+                        R.anim.slide_in_left,
+                        R.anim.slide_out_left)
+         .switchTo(OneFragment.class);
+```
+
+#### Disable animation
+
+Disable animation for current transaction. You can temporary disable animation for feature transaction:
+For example,
+```java
+ Switcher
+         .obtainSwitcher(MainActivity.class)
+         .withoutAnimation()
+         .switchTo(OneFragment.class, args);
+```
+
+#### Custom animation
+
+You can create custom animation for feature transaction. After transaction animation will be return to previous state.
+
+```java
+ Switcher.obtainSwitcher(MainActivity.class)
+         .withAnimations(R.anim.slide_in_left, R.anim.slide_out_left)
+         .switchTo(Fragments.THREE);
 ```
 
 ## Event Bus

@@ -25,7 +25,9 @@ public class TwoFragment extends Fragment {
         inflate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Switcher.obtainSwitcher(MainActivity.class).switchTo(Fragments.THREE);
+                Switcher.obtainSwitcher(MainActivity.class)
+                        .withAnimations(R.anim.slide_in_left, R.anim.slide_out_left)
+                        .switchTo(Fragments.THREE);
             }
         });
         return inflate;

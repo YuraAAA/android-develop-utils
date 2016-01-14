@@ -47,10 +47,10 @@ public class ThreeFragment extends Fragment implements IEventReceiver {
             public void onClick(View v) {
                 Bundle args = new Bundle();
                 args.putLong("id", 1);
-                Switcher.obtainSwitcher(MainActivity.class).switchTo(OneFragment.class, args);
-
-                Switcher.obtainSwitcher(MainActivity.class).switchTo(OneFragment.class, false);
-                Switcher.obtainSwitcher(MainActivity.class).switchTo(OneFragment.class, args, false);
+                Switcher
+                        .obtainSwitcher(MainActivity.class)
+                        .withoutAnimation()
+                        .switchTo(OneFragment.class, args);
 
 
             }

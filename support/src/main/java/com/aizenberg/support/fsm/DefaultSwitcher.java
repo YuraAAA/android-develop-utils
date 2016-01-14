@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.aizenberg.support.fsm.model.Alias;
+import com.aizenberg.support.utils.GenericUtils;
 
 /**
  * Created by Yuriy Aizenberg
@@ -15,6 +16,8 @@ public class DefaultSwitcher implements ISwitcher {
 
     private Activity activity;
     private int resourceId;
+    private static final CurrentFragmentAnimator FRAGMENT_ANIMATOR = new CurrentFragmentAnimator();
+
 
     DefaultSwitcher(Activity activity, int resourceId) {
         this.activity = activity;
@@ -49,6 +52,47 @@ public class DefaultSwitcher implements ISwitcher {
 
             String name = clazz.getName();
             Fragment fragment = Fragment.instantiate(activity, name, args);
+
+
+
+            switch (FRAGMENT_ANIMATOR.state) {
+                case UNSET:
+                    break;
+                case DEFAULT:
+                    if (FRAGMENT_ANIMATOR.isDefaultAnimationSetup()) {
+                        if (FRAGMENT_ANIMATOR.isDefaultReversePresented()) {
+                            fragmentTransaction.setCustomAnimations(
+                                    FRAGMENT_ANIMATOR.defaultInAnimation,
+                                    FRAGMENT_ANIMATOR.defaultOutAnimation,
+                                    FRAGMENT_ANIMATOR.reverseDefaultInAnimation,
+                                    FRAGMENT_ANIMATOR.reverseDefaultOutAnimation);
+                        } else {
+                            fragmentTransaction.setCustomAnimations(
+                                    FRAGMENT_ANIMATOR.defaultInAnimation,
+                                    FRAGMENT_ANIMATOR.defaultOutAnimation);
+                        }
+                    }
+                    break;
+                case CUSTOM:
+                    if (FRAGMENT_ANIMATOR.isCustomAnimationSetup()) {
+                        if (FRAGMENT_ANIMATOR.isCustomReversePresented()) {
+                            fragmentTransaction.setCustomAnimations(
+                                    FRAGMENT_ANIMATOR.customInAnimation,
+                                    FRAGMENT_ANIMATOR.customOutAnimation,
+                                    FRAGMENT_ANIMATOR.reverseCustomInAnimation,
+                                    FRAGMENT_ANIMATOR.reverseCustomOutAnimation);
+                        } else {
+                            fragmentTransaction.setCustomAnimations(
+                                    FRAGMENT_ANIMATOR.customInAnimation,
+                                    FRAGMENT_ANIMATOR.customOutAnimation);
+                        }
+                    }
+                    FRAGMENT_ANIMATOR.state = GenericUtils.orElse(FRAGMENT_ANIMATOR.previousState, CurrentFragmentAnimator.State.UNSET);
+                    break;
+                case TEMPORARY_DISABLED:
+                    FRAGMENT_ANIMATOR.state = GenericUtils.orElse(FRAGMENT_ANIMATOR.previousState, CurrentFragmentAnimator.State.UNSET);
+                    break;
+            }
 
             fragmentTransaction.replace(resourceId, fragment);
             if (addToBackStack) fragmentTransaction.addToBackStack(name);
@@ -122,6 +166,52 @@ public class DefaultSwitcher implements ISwitcher {
     }
 
     @Override
+    public ISwitcher clearAnimation() {
+        FRAGMENT_ANIMATOR.reset();
+        FRAGMENT_ANIMATOR.state = CurrentFragmentAnimator.State.UNSET;
+        return this;
+    }
+
+    @Override
+    public ISwitcher setAnimations(int inAnimResource, int outAnimResource) {
+        FRAGMENT_ANIMATOR.defaultInAnimation = inAnimResource;
+        FRAGMENT_ANIMATOR.defaultOutAnimation = outAnimResource;
+        FRAGMENT_ANIMATOR.state = CurrentFragmentAnimator.State.DEFAULT;
+        return this;
+    }
+
+    @Override
+    public ISwitcher setAnimations(int inAnimResource, int outAnimResource, int reverseInAnimResource, int reverseOutAnimResource) {
+        FRAGMENT_ANIMATOR.reverseDefaultInAnimation = reverseInAnimResource;
+        FRAGMENT_ANIMATOR.reverseDefaultOutAnimation = reverseOutAnimResource;
+        return setAnimations(inAnimResource, outAnimResource);
+    }
+
+    @Override
+    public ISwitcher withAnimations(int inAnimResource, int outAnimResource) {
+        FRAGMENT_ANIMATOR.customInAnimation = inAnimResource;
+        FRAGMENT_ANIMATOR.customOutAnimation = outAnimResource;
+        FRAGMENT_ANIMATOR.previousState = FRAGMENT_ANIMATOR.state;
+        FRAGMENT_ANIMATOR.state = CurrentFragmentAnimator.State.CUSTOM;
+        return this;
+    }
+
+    @Override
+    public ISwitcher withAnimations(int inAnimResource, int outAnimResource, int reverseInAnimResource, int reverserOutAnimResource) {
+        FRAGMENT_ANIMATOR.reverseCustomInAnimation = reverseInAnimResource;
+        FRAGMENT_ANIMATOR.reverseCustomOutAnimation = reverserOutAnimResource;
+        return withAnimations(inAnimResource, outAnimResource);
+    }
+
+    @Override
+    public ISwitcher withoutAnimation() {
+        FRAGMENT_ANIMATOR.previousState = FRAGMENT_ANIMATOR.state;
+        FRAGMENT_ANIMATOR.state = CurrentFragmentAnimator.State.TEMPORARY_DISABLED;
+        return this;
+    }
+
+
+    @Override
     public void addAlias(String key, Class<? extends Fragment> clazz) {
         AliasHolder.addAlias(key, clazz);
     }
@@ -136,5 +226,57 @@ public class DefaultSwitcher implements ISwitcher {
         for (Alias a : aliases) {
             AliasHolder.addAlias(a.getAlias(), a.getClazz());
         }
+    }
+
+    private static class CurrentFragmentAnimator {
+        private static final int NO_ANIM = -1;
+
+        int defaultInAnimation = NO_ANIM;
+        int defaultOutAnimation = NO_ANIM;
+
+        int reverseDefaultInAnimation = NO_ANIM;
+        int reverseDefaultOutAnimation = NO_ANIM;
+
+        int customInAnimation = NO_ANIM;
+        int customOutAnimation = NO_ANIM;
+
+        int reverseCustomInAnimation = NO_ANIM;
+        int reverseCustomOutAnimation = NO_ANIM;
+
+        State state;
+        State previousState;
+
+        public boolean isDefaultAnimationSetup() {
+            return bothSetup(defaultInAnimation, defaultOutAnimation);
+        }
+
+        public boolean isCustomAnimationSetup() {
+            return bothSetup(customInAnimation, customOutAnimation);
+        }
+
+
+        private boolean bothSetup(int first, int second) {
+            return first != -1 && second != NO_ANIM;
+        }
+
+        public void reset() {
+            defaultOutAnimation = defaultInAnimation = -1;
+        }
+
+        private boolean isCustomReversePresented() {
+            return bothSetup(reverseCustomInAnimation, reverseCustomOutAnimation);
+        }
+
+        private boolean isDefaultReversePresented() {
+            return bothSetup(reverseDefaultInAnimation, reverseDefaultOutAnimation);
+        }
+
+        enum State {
+            UNSET,
+            DEFAULT,
+            CUSTOM,
+            TEMPORARY_DISABLED
+        }
+
     }
 }
